@@ -1,0 +1,17 @@
+import { gql } from "@apollo/client";
+
+export const CASHIER_LOGIN =  gql`
+mutation CashierLogin ($email: String!, $password: String!) {
+    cashierLogin(email: $email, password: $password) {
+        id
+        firstname
+        lastname
+        email
+        telephone
+        outlet
+        cashier_image
+        is_active
+        token
+    }
+}
+`

@@ -15,7 +15,6 @@ export default function NavBar() {
       const cashierData = localStorage.getItem("cashier_data");
       if (cashierData) {
         const cashier = JSON.parse(cashierData);
-        console.log(cashier);
         const cashierName = cashier && cashier?.firstname && cashier?.lastname
         ? cashier?.firstname + ' ' + cashier?.lastname
         : 'Cashier';

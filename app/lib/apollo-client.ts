@@ -1,7 +1,7 @@
 import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client";
 import {onError} from "@apollo/client/link/error";
 
-const MAGENTO_GRAPHQL_URI = process.env.MAGENTO_URI;
+const MAGENTO_GRAPHQL_URI = process.env.NEXT_PUBLIC_MAGENTO_URI;
   let acessToken = null;
   if (typeof window !== "undefined") {
     acessToken = localStorage.getItem("customer_token");

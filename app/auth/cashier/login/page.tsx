@@ -4,11 +4,12 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CASHIER_LOGIN } from "@/app/Api/CashierLogin";
 import {motion} from 'framer-motion';
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const router = useRouter();
   const [login, { data, loading, error }] = useMutation(CASHIER_LOGIN);
   const [cashierData, setCashierData] = useState([]);
 
@@ -16,12 +17,13 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const res = await login({ variables: { email, password } });
-      console.log(res)
-
       if (res?.data?.cashierLogin?.token) {
+        const cashierData = res?.data?.cashierLogin 
+        ? JSON.stringify(res?.data?.cashierLogin)
+        : '';
+        localStorage.setItem("cashier_data", cashierData)
         localStorage.setItem("pos_token", res.data.cashierLogin.token);
-        console.log("Cashier logged in:", res.data.cashierLogin);
-        
+        router.replace('/sync')    
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -68,18 +70,6 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </motion.button>
         </div>
-
-        {/* Error / Response */}
-        {error && (
-          <p className="mt-4 text-center text-sm text-red-400">
-            Error: {error.message}
-          </p>
-        )}
-        {data && (
-          <pre className="mt-4 max-h-40 overflow-auto rounded-lg bg-gray-900 p-3 text-xs text-green-400">
-            {JSON.stringify(data, null, 2)}
-          </pre>
-        )}
       </motion.div>
     </div>
   );
